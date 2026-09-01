@@ -1,0 +1,54 @@
+.online-lobby { width: 100%; max-width: 700px; margin-top: 20px; }
+.lobby-tabs { display: flex; gap: 8px; margin-bottom: 15px; }
+.lobby-tab { flex: 1; padding: 10px; background: rgba(31,40,51,0.6); border: 1px solid #45a29e; border-radius: 8px; color: #c5c6c7; cursor: pointer; text-align: center; font-weight: bold; transition: all 0.2s; }
+.lobby-tab.active { background: rgba(102,252,241,0.2); border-color: #66fcf1; color: #66fcf1; }
+
+.lobby-input { width: 100%; padding: 12px; background: #0b0c10; border: 2px solid #45a29e; border-radius: 8px; color: #66fcf1; font-size: 16px; letter-spacing: 3px; text-transform: uppercase; text-align: center; direction: ltr; }
+.lobby-input:focus { outline: none; border-color: #66fcf1; }
+
+.rooms-list { max-height: 300px; overflow-y: auto; background: rgba(11,12,16,0.5); border-radius: 8px; padding: 10px; border: 1px solid #45a29e; }
+.room-card { background: rgba(31,40,51,0.6); padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid transparent; transition: all 0.2s; }
+.room-card:hover { border-color: #66fcf1; transform: translateX(-3px); }
+.room-info h4 { color: #66fcf1; margin-bottom: 3px; }
+.room-info span { color: #888; font-size: 12px; }
+.room-join-btn { padding: 8px 16px; background: #45a29e; border: none; color: white; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.empty-rooms { text-align: center; color: #888; padding: 40px 20px; font-size: 14px; }
+
+.checkbox-row { display: flex; align-items: center; gap: 8px; color: #c5c6c7; font-size: 13px; margin: 10px 0; }
+
+.code-display { background: #0b0c10; border: 2px dashed #66fcf1; padding: 20px; border-radius: 10px; text-align: center; margin: 15px 0; }
+.code-display .code { font-size: 36px; letter-spacing: 8px; color: #66fcf1; font-weight: bold; font-family: monospace; text-shadow: 0 0 15px #66fcf1; }
+.copy-btn { margin-top: 10px; padding: 8px 20px; background: #45a29e; border: none; color: white; border-radius: 6px; cursor: pointer; font-size: 13px; }
+.copy-btn:hover { background: #66fcf1; color: #0b0c10; }
+
+.room-waiting { background: rgba(31,40,51,0.9); padding: 30px; border-radius: 12px; text-align: center; border: 2px solid #66fcf1; max-width: 500px; }
+.player-slots { display: flex; gap: 20px; justify-content: center; margin: 20px 0; }
+.player-slot { width: 150px; height: 150px; background: rgba(11,12,16,0.6); border: 2px dashed #45a29e; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
+.player-slot.filled { border-style: solid; border-color: #66fcf1; }
+.player-slot .avatar { width: 60px; height: 60px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 15px currentColor; }
+.player-slot .name { color: #66fcf1; font-weight: bold; margin-bottom: 5px; }
+
+.wr-badges { display: flex; gap: 8px; justify-content: center; margin: 10px 0; }
+.role-badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+.role-badge.operator { background: rgba(255,215,0,.15); color: #ffd700; border: 1px solid #ffd700; }
+.role-badge.guest { background: rgba(102,252,241,.15); color: #66fcf1; border: 1px solid #66fcf1; }
+.role-badge.public { background: rgba(0,255,136,.15); color: #00ff88; border: 1px solid #00ff88; }
+.role-badge.private { background: rgba(255,65,108,.15); color: #ff416c; border: 1px solid #ff416c; }
+
+.server-form { background: rgba(11,12,16,.5); padding: 15px; border-radius: 10px; border: 1px solid #45a29e; max-width: 420px; margin: 0 auto; }
+.server-form label { display: block; color: #c5c6c7; font-size: 13px; margin: 10px 0 5px; font-weight: bold; }
+
+.kick-btn { margin-top: 8px; padding: 4px 12px; background: #ff416c; border: none; color: white; border-radius: 5px; cursor: pointer; font-size: 11px; font-weight: bold; }
+.public-pill { background: rgba(0,255,136,.2); color: #00ff88; padding: 2px 8px; border-radius: 8px; font-size: 10px; margin-right: 5px; }
+
+.ping-display { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 5px; color: #00ff88; font-size: 11px; z-index: 15; font-family: monospace; }
+
+.chat-box { position: absolute; bottom: 10px; left: 10px; width: 280px; max-height: 200px; background: rgba(0,0,0,0.6); border-radius: 8px; padding: 8px; z-index: 15; display: flex; flex-direction: column; }
+.chat-messages { flex: 1; overflow-y: auto; max-height: 150px; font-size: 12px; color: #c5c6c7; }
+.chat-msg { margin: 3px 0; }
+.chat-msg .name { color: #66fcf1; font-weight: bold; }
+.chat-input { background: rgba(255,255,255,0.1); border: 1px solid #45a29e; color: white; padding: 5px; border-radius: 4px; margin-top: 5px; font-size: 12px; }
+
+.auth-message { text-align: center; padding: 10px; border-radius: 6px; margin: 10px 0; font-size: 13px; display: none; }
+.auth-message.error { display: block; background: rgba(255,65,108,0.2); color: #ff416c; border: 1px solid #ff416c; }
+.auth-message.success { display: block; background: rgba(0,255,136,0.2); color: #00ff88; border: 1px solid #00ff88; }
