@@ -1,6 +1,6 @@
 // ==================== WebSocket سبک (بدون socket.io) ====================
 function io(url) {
-    const ws = new WebSocket(url.replace(/^http/, 'ws'));
+    const ws = new WebSocket(url.replace(/^https/));
     const handlers = {};
     const pending = {};
     let idc = 0;
