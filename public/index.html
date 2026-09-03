@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/ui.css">
     <link rel="stylesheet" href="css/online.css">
     <link rel="stylesheet" href="css/i18n.css">
+    <link rel="stylesheet" href="css/profile.css">
 </head>
 <body>
     <div id="ui-container">
@@ -64,6 +65,7 @@
                 <button class="tab" onclick="switchTab('settings')" data-i18n="menu.settings">⚙️ Settings</button>
                 <button class="tab" onclick="switchTab('help')" data-i18n="menu.help">❓ Help</button>
                 <button class="tab" onclick="switchTab('leaderboard')" data-i18n="menu.leaderboard">🏆 Leaderboard</button>
+                <button class="tab" onclick="switchTab('profile')" id="profile-tab-btn">👤 profile</button>
             </div>
             
             <!-- Mode Tab -->
@@ -170,7 +172,48 @@
                 <div class="leaderboard" id="leaderboard"></div>
                 <button class="btn btn-small btn-danger" onclick="clearLeaderboard()" data-i18n="lb.clear">Clear</button>
             </div>
+            <div id="tab-profile" class="tab-content">
+                <div id="profile-logged-out">
+                    <h2>👤 player profile</h2>
+                    <p style="color:#888;font-size:13px;margin-bottom:10px;">Optional profile — you can play online without one too! 😉</p>
+                    <div class="profile-auth-box">
+                        <div id="auth-login">
+                            <h3>ورود</h3>
+                            <input type="text" id="login-username" class="profile-input" placeholder="Username">
+                            <input type="password" id="login-password" class="profile-input" placeholder="Password">
+                            <button class="btn btn-small" onclick="doLogin()">login</button>
+                            <div class="auth-link">You don't have accont<a onclick="toggleAuth('register')">register</a></div>
+                        </div>
+                        <div id="auth-register" style="display:none;">
+                            <h3>register</h3>
+                            <input type="text" id="reg-username" class="profile-input" placeholder="Username (min 3)">
+                            <input type="password" id="reg-password" class="profile-input" placeholder="Password (min 6)">
+                            <input type="password" id="reg-password2" class="profile-input" placeholder="Confirm">
+                            <button class="btn btn-small" onclick="doRegister()">ساخت پروفایل</button>
+                            <div class="auth-link">Are you have accont<a onclick="toggleAuth('login')">login</a></div>
+                        </div>
+                        <div id="auth-message" class="auth-message"></div>
+                    </div>
+                </div>
+                <div id="profile-logged-in" style="display:none;">
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <canvas id="profile-avatar" width="80" height="80"></canvas>
+                            <div>
+                                <div class="profile-username" id="profile-username">-</div>
+                                <div class="profile-level" id="profile-level">Lv.1</div>
+                                <div class="xp-bar"><div class="xp-fill" id="profile-xp"></div></div>
+                            </div>
+                        </div>
+                        <div class="profile-stats" id="profile-stats"></div>
+                        <div style="text-align:center;margin-top:10px;">
+                            <button class="btn btn-small btn-danger" onclick="doLogout()">🚪 without accont</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
 
         <div id="p1-shop" class="shop-modal">
             <div class="shop-title" style="color:#ff416c;" data-i18n="shop.p1_title">🛒 P1 Shop</div>
@@ -282,6 +325,7 @@
             <input type="text" class="chat-input" id="chat-input" placeholder="massage... (Enter)" maxlength="100">
         </div>
     </div>
+    
 
     <!-- JS Files — ORDER MATTERS! -->
     <script src="js/config.js"></script>
@@ -295,5 +339,6 @@
     <script src="js/game.js"></script>
     <script src="js/main.js"></script>
     <script src="js/i18n.js"></script>
+    <script src="js/profile.js"></script>
 </body>
 </html>
