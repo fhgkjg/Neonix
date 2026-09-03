@@ -102,6 +102,27 @@ function parseFrames(client) {
 const rooms = new Map();
 const playerByClient = new Map();
 
+// ---------- DATABASE کاربران (فایل JSON) ----------
+const USERS_FILE = path.join(__dirname, 'users.json');
+let usersDB = null;
+
+function loadUsersDB() {
+    if (usersDB) return usersDB;
+    try { usersDB = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8')); }
+    catch (e) { usersDB = {}; }
+    return usersDB;
+}
+function saveUsersDB() {
+    try { fs.writeFileSync(USERS_FILE, JSON.stringify(usersDB, null, 2)); }
+    catch (e) { console.error('❌ save users error:', e.message); }
+}
+function publicProfile(u) {
+    return {
+        username: u.username, color: u.color, shape: u.shape,
+        createdAt: u.createdAt, level: u.level, xp: u.xp, stats: u.stats
+    };
+}
+
 function generateRoomCode() {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     let c; do { c = ''; for (let i = 0; i < 6; i++) c += chars[Math.floor(Math.random() * chars.length)]; } while (rooms.has(c));
@@ -209,6 +230,46 @@ function onMessage(client, msg) {
         const room = roomOf(client); if (!room) return;
         const p = playerByClient.get(client.id);
         forRoom(room, c => c.send({ type: 'chat:message', data: { name: p.name, text: d, time: Date.now() } }));
+    }
+    else if (msg.type === 'profile:register') {
+        const username = String(d.username || '').trim();
+        const pass = String(d.pass || '');
+        if (username.length < 3) { if (cb) client.send({ cb: cb, data: { success: false, error: 'نام کاربری حداقل ۳ کاراکتر' } }); return; }
+        if (!/^[a-zA-Z0-9_]+$/.test(username)) { if (cb) client.send({ cb: cb, data: { success: false, error: 'فقط حروف انگلیسی، عدد و _' } }); return; }
+        if (pass.length < 6) { if (cb) client.send({ cb: cb, data: { success: false, error: 'رمز حداقل ۶ کاراکتر' } }); return; }
+        const db = loadUsersDB();
+        const key = username.toLowerCase();
+        if (db[key]) { if (cb) client.send({ cb: cb, data: { success: false, error: 'این نام کاربری قبلاً ثبت شده' } }); return; }
+        const token = crypto.randomBytes(12).toString('hex');
+        db[key] = {
+            username: username, pass: pass, token: token,
+            color: d.color || '#66fcf1', shape: d.shape || 'circle',
+            createdAt: Date.now(), level: 1, xp: 0,
+            stats: { games: 0, wins: 0, kills: 0, deaths: 0, coins: 0, bestStreak: 0, playTime: 0 }
+        };
+        saveUsersDB();
+        console.log('✅ کاربر جدید:', username);
+        if (cb) client.send({ cb: cb, data: { success: true, token: token, profile: publicProfile(db[key]) } });
+    }
+    else if (msg.type === 'profile:login') {
+        const db = loadUsersDB();
+        const key = String(d.username || '').toLowerCase().trim();
+        const u = db[key];
+        if (!u || u.pass !== d.pass) { if (cb) client.send({ cb: cb, data: { success: false, error: 'نام کاربری یا رمز اشتباهه' } }); return; }
+        if (cb) client.send({ cb: cb, data: { success: true, token: u.token, profile: publicProfile(u) } });
+    }
+    else if (msg.type === 'profile:save') {
+        const db = loadUsersDB();
+        let found = null;
+        for (const k in db) { if (db[k].token === d.token) { found = db[k]; break; } }
+        if (!found) { if (cb) client.send({ cb: cb, data: { success: false, error: 'نشست نامعتبر' } }); return; }
+        if (d.stats) found.stats = d.stats;
+        if (typeof d.xp === 'number') found.xp = d.xp;
+        if (typeof d.level === 'number') found.level = d.level;
+        if (d.color) found.color = d.color;
+        if (d.shape) found.shape = d.shape;
+        saveUsersDB();
+        if (cb) client.send({ cb: cb, data: { success: true, profile: publicProfile(found) } });
     }
 }
 
