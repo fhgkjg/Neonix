@@ -1,2 +1,0 @@
-# Neonix
-online game Neonix
